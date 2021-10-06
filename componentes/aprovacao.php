@@ -1,9 +1,11 @@
 <?php
 
+require('../php/consultaUsuarios.php');
 
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,15 +19,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relatorio</title>
 </head>
+
 <body>
     <div class="container"><br>
         <table class="table table-hover" style="background-color: white;">
             <tr>
                 <th scope="col">
                     <form method="POST" action="../php/controlador.php">
-                        <div class="form-inline">
-                            <label class="mr-sm-1" for="inlineFormCustomSelect">Nome:</label>
-                            <input type="text" name="nome" id="nome" class="form-control mx-sm-1" id="inputPassword2" placeholder="Pesquisa">
+                        <div class='form-inline'>
+                            <label class='mr-sm-1' for='inlineFormCustomSelect'>Nome:</label>
+                            <select class='form-control mx-sm-1' name="aprovacaoUsuarioHoras" required>
+                                <option value=''>Usuários</option>
+                                <?php
+                                if (count($consultaUsuarios) > 0) {
+                                    foreach ($consultaUsuarios as $indice => $dbaselec) {
+                                        echo "<option value='$dbaselec->nome'>$dbaselec->nome</option>";
+                                    }
+                                }
+                                ?>
+                            </select>
 
                             <label class="mr-sm-1" for="inlineFormCustomSelect">Inicio:</label>
                             <input type="date" name="inicioData" id="inicioExpediente" class="form-control mx-sm-1" id="inputPassword2" placeholder="Pesquisa">
@@ -33,7 +45,7 @@
                             <label class="mr-sm-1" for="inlineFormCustomSelect">Fim:</label>
                             <input type="date" name="fimData" id="fimExpediente" class="form-control mx-sm-1" id="inputPassword2" placeholder="Pesquisa">
 
-                            <button type="submit" name="acao" value="pesquisaHoras" id="pesquisaHoras" class="btn btn-danger col-sm-2 mx-sm-2">Pesquisar</button>
+                            <button type="submit" name="acao" value="aprovacaoHoras" id="aprovacaoHoras" class="btn btn-danger col-sm-2 mx-sm-2">Pesquisar</button>
                         </div>
                     </form>
                 </th>

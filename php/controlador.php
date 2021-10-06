@@ -12,9 +12,10 @@ $inicio = new DateTime($inicioExpediente);
 $fim = new DateTime($fimExpediente);
 $diferenca = $fim->diff($inicio)->format('%H:%I:%S');
 
-$pesquisaHoras = isset($_POST["acao"]) && $_POST["acao"] == "pesquisaHoras";
+$aprovacaoHoras = isset($_POST["acao"]) && $_POST["acao"] == "aprovacaoHoras";
 $inicioData = $_POST["inicioData"];
 $fimData = $_POST["fimData"];
+$aprovacaoUsuarioHoras = $_POST["aprovacaoUsuarioHoras"];
 
 
 if ($cadastroUsuario) {
@@ -38,6 +39,21 @@ if ($cadastroHoras) {
     } else {
         echo ("Dados invalidos, o inicio do expediente precisa ser menos que o fim do expediente");
     }
+}if($aprovacaoHoras){
+   $resp = $pdo->prepare("SELECT `nome`, `data1`, `inicioExpediente`, `fimExpediente`, `diferenca`, `status1` 
+   FROM controlehoras WHERE nome = :nome AND data1 BETWEEN :inicioData AND :fimData");
+   $resp->bindValue(":inicioData", $inicioData);
+   $resp->bindValue(":fimData", $fimData);
+   $resp->bindValue(":nome", $nome);// Arrumar
+   $resp->execute();
+   $resultado = $resp->fetchAll(PDO::FETCH_OBJ);
+  
+   echo("<pre>");
+   print_r($resultado);
+   
+   echo("</pre>");
+
+
 }
 
 ?>
