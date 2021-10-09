@@ -2,7 +2,7 @@
 session_start();
 
 if ($_SESSION['id'] != '' && $_SESSION['nome'] != '') {
-    $usuario = isset($_GET["usuario"]) && $_GET["usuario"] == "cadastrado";
+   
 } else {
     header('Location: ../index.php?login=erro');
 }

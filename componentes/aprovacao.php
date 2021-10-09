@@ -1,9 +1,12 @@
 <?php
 
-require('../php/consultaUsuarios.php');
 
+require('../php/consultaUsuarios.php');
+error_reporting(0);
+$resultAprovacao = $_SESSION['resultAprovacao'];
+unset($_SESSION['resultAprovacao']);
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt-br">
 
 <head>
@@ -39,7 +42,7 @@ require('../php/consultaUsuarios.php');
                                 ?>
                             </select>
 
-                            <label class="mr-sm-1" for="inlineFormCustomSelect">Inicio:</label>
+                            <label class="mr-sm-1" value="" for="inlineFormCustomSelect">Inicio:</label>
                             <input type="date" name="inicioData" id="inicioExpediente" class="form-control mx-sm-1" id="inputPassword2" placeholder="Pesquisa">
 
                             <label class="mr-sm-1" for="inlineFormCustomSelect">Fim:</label>
@@ -52,7 +55,7 @@ require('../php/consultaUsuarios.php');
             </tr>
         </table>
         <div class="table-responsive">
-            <form>
+            <form action="../php/controlador.php" method="POST"> 
                 <table class="table table-hover" style="background-color: white;">
                     <thead>
                         <tr>
@@ -61,31 +64,37 @@ require('../php/consultaUsuarios.php');
                             <th scope="col">Inicio</th>
                             <th scope="col">Fim</th>
                             <th scope="col">Total</th>
-                            <th scope="col">Ações</th>
+                            <th scope="col">Status</th>
                             <th scope="col">
-                                <button type='submit' name='acao' value='editar' class='btn btn-success' data-toggle="collapse"><i class="fa fa-check" aria-hidden="true"></i></button>
+                                <button type="submit" name="acao" value="botaoAprovar" class="btn btn-success" data-toggle="collapse"><i class="fa fa-check" aria-hidden="true"></i></button>
                             </th>
                             <th scope="col">
-                                <button type='submit' name='acao' value='editar' class='btn btn-danger' data-toggle="collapse"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                <button type='submit' name='acao' value='botaoRecusar' class='btn btn-danger' data-toggle="collapse"><i class="fa fa-times" aria-hidden="true"></i></button>
                             </th>
                             <th scope="col">
-                                <button type='submit' name='acao' value='editar' class='btn btn-danger' data-toggle="collapse"><i class='fa fa-trash' aria-hidden='true'></i></button>
+                                <button type="submit" name="acao" value="botaoExcluir" class="btn btn-danger" data-toggle="collapse"><i class="fa fa-trash" aria-hidden="true"></i></button>
                             </th>
+                           
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">Wagner Martins</th>
-                            <td>17/12/1999</td>
-                            <td>19:20:00H</td>
-                            <td>22:20:00H</td>
-                            <td>03:20:00H</td>
-                            <td>Aprovado</td>
-                            <td>
-                            <th><input class='checkbox' type='checkbox' name='checkbox[]' value='$dbaselec->id' id='defaultCheck1'></th>
-                            <th><button type='submit' name='acao' value='editar' class='btn btn-warning'><i class='fa fa-pencil' aria-hidden='true'></i></button></th>
-                            </td>
-                        </tr>
+                        <?php
+                        if (count($resultAprovacao) > 0) {
+                            foreach ($resultAprovacao as $indice => $dbaselec) {
+                                echo "
+                                <tr>
+                                    <th scope='row'>$dbaselec->nome</th>
+                                    <td>$dbaselec->data1</td>
+                                    <td>$dbaselec->inicioExpediente</td>
+                                    <td>$dbaselec->fimExpediente</td>
+                                    <td>$dbaselec->diferenca</td>
+                                    <td>$dbaselec->status1</td>
+                                    <td><input type='checkbox' name='checkbox[]'  style = 'width: 20px; height: 20px' value='$dbaselec->id' id='defaultCheck1'></td>
+                                </tr>";
+                            }
+                        }
+
+                        ?>
                     </tbody>
                 </table>
             </form>
